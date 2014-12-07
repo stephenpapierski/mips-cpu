@@ -81,6 +81,12 @@ echo extender.vhdl analyzed
 ghdl -a shamt_extender.vhdl
 echo shamt_extender.vhdl analyzed
 
+ghdl -a clock.vhdl
+echo clock.vhdl analyzed
+
+ghdl -a cpu.vhdl
+echo cpu.vhdl analyzed
+
 echo ----analyzing successful----
 echo
 
@@ -166,174 +172,185 @@ echo extender elaborated
 ghdl -e shamt_extender
 echo shamt_extender elaborated
 
+ghdl -e clock
+echo clock elaborated
+
+ghdl -e cpu
+echo cpu elaborated
+
 echo ----enumerating successful----
 echo
 
-tb="" #shamt_extender, extender, dflipflop, regfile, mux32to1_bit, dec5to32, full_adder, adder32, xor32, nor32, nand32, complement32, shifter32, set_less_than, alu
+tb="" #cpu, shamt_extender, extender, dflipflop, regfile, mux32to1_bit, dec5to32, full_adder, adder32, xor32, nor32, nand32, complement32, shifter32, set_less_than, alu
 case $tb in
     "regfile")      echo **regfile_tb**
-                    mv tb/regfile_tb.vhdl .
+                    mv test_benches/regfile_tb.vhdl .
                     ghdl -a regfile_tb.vhdl
                     echo regfile_tb.vhdl analyzed
                     ghdl -e regfile_tb
                     echo regfile_tb elaborated
-                    mv regfile_tb.vhdl tb/
+                    mv regfile_tb.vhdl test_benches/
                     ./regfile_tb --wave=regfile_test.ghw
                     gtkwave regfile_test.ghw
                     ;;
                 
     "mux32to1_bit") echo **mux32to1_bit**
-                    mv tb/mux32to1_bit_tb.vhdl .
+                    mv test_benches/mux32to1_bit_tb.vhdl .
                     ghdl -a mux32to1_bit_tb.vhdl
                     echo mux32to1_bit_tb.vhdl analyzed
                     ghdl -e mux32to1_bit_tb
                     echo mux32to1_bit_tb elaborated
-                    mv mux32to1_bit_tb.vhdl tb/
+                    mv mux32to1_bit_tb.vhdl test_benches/
                     ./mux32to1_bit_tb --wave=mux32to1_bit_test.ghw
                     gtkwave mux32to1_bit_test.ghw
                     ;;
 
     "dec5to32")     echo **dec5to32_tb**
-                    mv tb/dec5to32_tb.vhdl .
+                    mv test_benches/dec5to32_tb.vhdl .
                     ghdl -a dec5to32_tb.vhdl
                     echo dec5to32_tb.vhdl analyzed
                     ghdl -e dec5to32_tb
                     echo dec5to32_tb elaborated
-                    mv dec5to32_tb.vhdl tb/
+                    mv dec5to32_tb.vhdl test_benches/
                     ./dec5to32_tb --wave=dec5to32_test.ghw
                     gtkwave dec5to32_test.ghw
                     ;;
 
     "full_adder")   echo **full_adder_tb**
-                    mv tb/full_adder_tb.vhdl .
+                    mv test_benches/full_adder_tb.vhdl .
                     ghdl -a full_adder_tb.vhdl
                     echo full_adder_tb.vhdl analyzed
                     ghdl -e full_adder_tb
                     echo full_adder_tb elaborated
-                    mv full_adder_tb.vhdl tb/
+                    mv full_adder_tb.vhdl test_benches/
                     ./full_adder_tb --wave=full_adder_test.ghw
                     gtkwave full_adder_test.ghw
                     ;;
 
     "adder32")      echo **adder32_tb**
-                    mv tb/adder32_tb.vhdl .
+                    mv test_benches/adder32_tb.vhdl .
                     ghdl -a adder32_tb.vhdl
                     echo adder32_tb.vhdl analyzed
                     ghdl -e adder32_tb
                     echo adder32_tb elaborated
-                    mv adder32_tb.vhdl tb/
+                    mv adder32_tb.vhdl test_benches/
                     ./adder32_tb --wave=adder32_test.ghw
                     gtkwave adder32_test.ghw
                     ;;
 
     "xor32")        echo **xor32_tb**
-                    mv tb/xor32_tb.vhdl .
+                    mv test_benches/xor32_tb.vhdl .
                     ghdl -a xor32_tb.vhdl
                     echo xor32_tb.vhdl analyzed
                     ghdl -e xor32_tb
                     echo xor32_tb elaborated
-                    mv xor32_tb.vhdl tb/
+                    mv xor32_tb.vhdl test_benches/
                     ./xor32_tb --wave=xor32_test.ghw
                     gtkwave xor32_test.ghw
                     ;;
 
     "nor32")        echo **nor32_tb**
-                    mv tb/nor32_tb.vhdl .
+                    mv test_benches/nor32_tb.vhdl .
                     ghdl -a nor32_tb.vhdl
                     echo nor32_tb.vhdl analyzed
                     ghdl -e nor32_tb
                     echo nor32_tb elaborated
-                    mv nor32_tb.vhdl tb/
+                    mv nor32_tb.vhdl test_benches/
                     ./nor32_tb --wave=nor32_test.ghw
                     gtkwave nor32_test.ghw
                     ;;
 
     "nand32")       echo **nand32_tb**
-                    mv tb/nand32_tb.vhdl .
+                    mv test_benches/nand32_tb.vhdl .
                     ghdl -a nand32_tb.vhdl
                     echo nand32_tb.vhdl analyzed
                     ghdl -e nand32_tb
                     echo nand32_tb elaborated
-                    mv nand32_tb.vhdl tb/
+                    mv nand32_tb.vhdl test_benches/
                     ./nand32_tb --wave=nand32_test.ghw
                     gtkwave nand32_test.ghw
                     ;;
 
     "complement32") echo **complement32_tb**
-                    mv tb/complement32_tb.vhdl .
+                    mv test_benches/complement32_tb.vhdl .
                     ghdl -a complement32_tb.vhdl
                     echo complement32_tb.vhdl analyzed
                     ghdl -e complement32_tb
                     echo complement32_tb elaborated
-                    mv complement32_tb.vhdl tb/
+                    mv complement32_tb.vhdl test_benches/
                     ./complement32_tb --wave=complement32_test.ghw
                     gtkwave complement32_test.ghw
                     ;;
 
     "shifter32")    echo **shifter32_tb**
-                    mv tb/shifter32_tb.vhdl .
+                    mv test_benches/shifter32_tb.vhdl .
                     ghdl -a shifter32_tb.vhdl
                     echo shifter32_tb.vhdl analyzed
                     ghdl -e shifter32_tb
                     echo shifter32_tb elaborated
-                    mv shifter32_tb.vhdl tb/
+                    mv shifter32_tb.vhdl test_benches/
                     ./shifter32_tb --wave=shifter32_test.ghw
                     gtkwave shifter32_test.ghw
                     ;;
 
     "set_less_than")echo **set_less_than**
-                    mv tb/set_less_than_tb.vhdl .
+                    mv test_benches/set_less_than_tb.vhdl .
                     ghdl -a set_less_than_tb.vhdl
                     echo set_less_than_tb.vhdl analyzed
                     ghdl -e set_less_than_tb
                     echo set_less_than_tb elaborated
-                    mv set_less_than_tb.vhdl tb/
+                    mv set_less_than_tb.vhdl test_benches/
                     ./set_less_than_tb --wave=set_less_than_test.ghw
                     gtkwave set_less_than_test.ghw
                     ;;
 
     "alu")          echo **alu_tb**
-                    mv tb/alu_tb.vhdl .
+                    mv test_benches/alu_tb.vhdl .
                     ghdl -a alu_tb.vhdl
                     echo alu_tb.vhdl analyzed
                     ghdl -e alu_tb
                     echo alu_tb elaborated
-                    mv alu_tb.vhdl tb/
+                    mv alu_tb.vhdl test_benches/
                     ./alu_tb --wave=alu_test.ghw
                     gtkwave alu_test.ghw
                     ;;
 
     "dflipflop")    echo **dflipflop_tb**
-                    mv tb/dflipflop_tb.vhdl .
+                    mv test_benches/dflipflop_tb.vhdl .
                     ghdl -a dflipflop_tb.vhdl
                     echo dflipflop_tb.vhdl analyzed
                     ghdl -e dflipflop_tb
                     echo dflipflop_tb elaborated
-                    mv dflipflop_tb.vhdl tb/
+                    mv dflipflop_tb.vhdl test_benches/
                     ./dflipflop_tb --wave=dflipflop_test.ghw
                     gtkwave dflipflop_test.ghw
                     ;;
 
     "extender")     echo **extender_tb**
-                    mv tb/extender_tb.vhdl .
+                    mv test_benches/extender_tb.vhdl .
                     ghdl -a extender_tb.vhdl
                     echo extender_tb.vhdl analyzed
                     ghdl -e extender_tb
                     echo extender_tb elaborated
-                    mv extender_tb.vhdl tb/
+                    mv extender_tb.vhdl test_benches/
                     ./extender_tb --wave=extender_test.ghw
                     gtkwave extender_test.ghw
                     ;;
 
     "shamt_extender")     echo **shamt_extender_tb**
-                    mv tb/shamt_extender_tb.vhdl .
+                    mv test_benches/shamt_extender_tb.vhdl .
                     ghdl -a shamt_extender_tb.vhdl
                     echo shamt_extender_tb.vhdl analyzed
                     ghdl -e shamt_extender_tb
                     echo shamt_extender_tb elaborated
-                    mv shamt_extender_tb.vhdl tb/
+                    mv shamt_extender_tb.vhdl test_benches/
                     ./shamt_extender_tb --wave=shamt_extender_test.ghw
                     gtkwave shamt_extender_test.ghw
+                    ;;
+
+    "cpu")     echo **cpu_tb**
+                    ./cpu --stop-time=10ns --wave=cpu_test.ghw
+                    gtkwave cpu_test.ghw
                     ;;
 esac
 
