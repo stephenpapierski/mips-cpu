@@ -1,4 +1,4 @@
 #!/bin/bash
 rm -rfv *.o *.ghw *.cf *.s *.lst
 rm -rfv tb/*.o tb/*.ghw tb/*.cf
-rm -rfv regfile dec2to4 dec3to8 dec5to32 dflipflop mux2to1 mux4to1 mux32to1 full_adder *_tb adder32 mux4to1_bit mux2to1_bit xor32 nor32 nand32 complement32 mux32to1_bit shifter32 zero32 mux16to1 set_less_than mux16to1_bit alu control alucontrol extender shamt_extender cpu clock
+rm -rfv regfile dec2to4 dec3to8 dec5to32 dflipflop mux2to1 mux4to1 mux32to1 full_adder *_tb adder32 mux4to1_bit mux2to1_bit xor32 nor32 nand32 complement32 mux32to1_bit shifter32 zero32 mux16to1 set_less_than mux16to1_bit alu control alucontrol extender shamt_extender cpu clock sram64kx8

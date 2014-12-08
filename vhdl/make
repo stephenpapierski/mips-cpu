@@ -84,7 +84,10 @@ echo shamt_extender.vhdl analyzed
 ghdl -a clock.vhdl
 echo clock.vhdl analyzed
 
-ghdl -a cpu.vhdl
+ghdl -a --ieee=synopsys sram.vhdl
+echo sram.vhdl analyzed
+
+ghdl -a --ieee=synopsys cpu.vhdl
 echo cpu.vhdl analyzed
 
 echo ----analyzing successful----
@@ -175,13 +178,16 @@ echo shamt_extender elaborated
 ghdl -e clock
 echo clock elaborated
 
-ghdl -e cpu
+ghdl -e --ieee=synopsys sram64kx8
+echo sram64kx8 elaborated
+
+ghdl -e --ieee=synopsys cpu
 echo cpu elaborated
 
 echo ----enumerating successful----
 echo
 
-tb="" #cpu, shamt_extender, extender, dflipflop, regfile, mux32to1_bit, dec5to32, full_adder, adder32, xor32, nor32, nand32, complement32, shifter32, set_less_than, alu
+tb="cpu" #cpu, shamt_extender, extender, dflipflop, regfile, mux32to1_bit, dec5to32, full_adder, adder32, xor32, nor32, nand32, complement32, shifter32, set_less_than, alu
 case $tb in
     "regfile")      echo **regfile_tb**
                     mv test_benches/regfile_tb.vhdl .

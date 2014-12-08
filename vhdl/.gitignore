@@ -1,0 +1,7 @@
+*.swp
+*.o
+*.cf
+*.ghw
+*.lst
+*.s
+*.vsdx

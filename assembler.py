@@ -84,11 +84,12 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
     executable = open(executablefile, "w")
     for i in range(len(addresses)):
         executable.write(addresses[i])
-        executable.write(",")
+        executable.write(" ")
         executable.write(instructions[i])
         executable.write("\n")
     executable.close()
 
 
 
-main("brandon_micah.txt", "foo.dat")
+#main("brandon_micah.txt", "foo.dat")
+main("test_1.txt")
