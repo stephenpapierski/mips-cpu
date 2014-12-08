@@ -3,14 +3,16 @@ use ieee.std_logic_1164.all;
 
 entity dflipflop is
     port (
-        clock, we, reset : in STD_LOGIC;
+        clock, we : in STD_LOGIC;
         d : in STD_LOGIC_VECTOR(31 downto 0);
         q : out STD_LOGIC_VECTOR(31 downto 0)
     );
 end dflipflop;
 
 architecture behav of dflipflop is
+    signal reset: std_logic;
 begin
+    reset <= '1', '0' after 5 ps;
     process (clock) is
     begin
         if (reset='1') then

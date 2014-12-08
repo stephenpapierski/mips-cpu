@@ -15,6 +15,9 @@ echo mux4to1.vhdl analyzed
 ghdl -a mux4to1_bit.vhdl
 echo mux4to1_bit.vhdl analyzed
 
+ghdl -a mux4to1_5.vhdl
+echo mux4to1_5.vhdl analyzed 
+
 ghdl -a mux16to1.vhdl
 echo mux16to1.vhdl analyzed 
 
@@ -108,6 +111,9 @@ echo mux4to1 elaborated
 
 ghdl -e mux4to1_bit
 echo mux4to1_bit elaborated
+
+ghdl -e mux4to1_5
+echo mux4to1_5 elaborated
 
 ghdl -e mux16to1
 echo mux16to1 elaborated
@@ -355,7 +361,7 @@ case $tb in
                     ;;
 
     "cpu")     echo **cpu_tb**
-                    ./cpu --stop-time=10ns --wave=cpu_test.ghw
+                    ./cpu --stop-time=30ns --wave=cpu_test.ghw
                     gtkwave cpu_test.ghw
                     ;;
 esac

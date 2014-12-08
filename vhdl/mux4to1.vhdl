@@ -5,7 +5,7 @@ USE ieee.numeric_std.all;
 entity mux4to1 is
 	port (
         i0, i1, i2, i3 : in STD_LOGIC_VECTOR(31 downto 0);
-        s0, s1 : in STD_LOGIC_VECTOR(0 downto 0);
+        s0, s1 : in STD_LOGIC_VECTOR(0 downto 0); -- these are flipped
 		q : out STD_LOGIC_VECTOR(31 downto 0)
 	);
 end mux4to1;
