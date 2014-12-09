@@ -3,8 +3,9 @@ from __future__ import print_function
 
 __author__ = "Brandon Hoeksema"
 __credits__ = ["Micah Russell", "Stephen Papierski"]
-__version__ = "0.2"
+__version__ = "0.3"
 __status__  = "Development"
+__notes__ = "assembler.py must be run with python3"
 
 #--|------------------------|------------------|--------------------------------------|
 #--|DESCRIPTION             |SYNTAX            |OPERATION                             |
@@ -34,7 +35,6 @@ __status__  = "Development"
 R = {
 "add"   : "100000",
 "addu"  : "100001",
-"addiu" : "001001",
 "jr"    : "001000",
 "nor"   : "100111",
 "slt"   : "101010",
@@ -47,6 +47,7 @@ R = {
 # moving addiu to R type instruction.  If this breaks it, will move it back
 I = {
 "addi"  : "001000",
+"addiu" : "001001",
 "beq"   : "000100",
 "lw"    : "100011",
 "ori"   : "001101",
@@ -60,7 +61,7 @@ J = {
 }
 
 
-def main(assemblyfile = "brandon_micah.txt", executablefile = "sram64kx8.dat"):
+def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
     bin_instruction = ""
     instructions = []
     addresses = []
@@ -71,11 +72,13 @@ def main(assemblyfile = "brandon_micah.txt", executablefile = "sram64kx8.dat"):
         if instr != "":
             shamt = "00000"
             parts = instr.split()
+            print(parts)
             if len(parts) == 1: #halt?
                 parts.append("0")
             if parts[0] in R.keys(): #R types
                 opcode = "000000"
                 funct = R[parts[0]]
+                print(funct)
                 bin_instruction += opcode
                 parts2 = parts[1:]
                 count = 0
@@ -124,6 +127,7 @@ def main(assemblyfile = "brandon_micah.txt", executablefile = "sram64kx8.dat"):
                     opcode = J[parts[0]]
                     bin_instruction += opcode + str(bin(int(parts[1],16))[2:].zfill(26))
             instruction = str(hex(int(bin_instruction,2)))[2:].zfill(8) #removes 0x prefix and pads to 8 characters
+            print(bin_instruction)
             instructions.append(instruction)
             addresses.append(hex(int(str(address)))[2:].zfill(8))
             address +=4
@@ -138,5 +142,4 @@ def main(assemblyfile = "brandon_micah.txt", executablefile = "sram64kx8.dat"):
 
 
 
-#main("brandon_micah_test.txt")
-main("test_1.txt")
+main("brandon_micah.txt")
