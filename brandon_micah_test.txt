@@ -1,58 +1,61 @@
-add $3,$3,$1
-sll $4,$2,2
-beq $1,$2,16
-add $0,$4,$3
-add $3,$3,$1
-sll $4,$2,2
-sub $1,$2,$5
+lw $0 0($3)
+lw $0 8($2)
+add $1 $3 $3
+lw $0 4($4)
+sll $2 $4 2
+beq $2 $1 16
+add $3 $0 $4
+add $1 $3 $3
+sll $2 $4 2
+sub $5 $1 $2
 halt
 
-add $0,$0,$1
-addiu $0,$5,5
-addu $1,$2,$2
-addi $1,$1,1
-beq $1,$5,8
+add $1 $0 $0
+addiu $5 $0 5
+addu $2 $1 $2
+addi $1 $1 1
+beq $5 $1 8
 j 8
 halt
-addi $0,$1,12
+addi $1 $0 12
 jr $1
 halt
 
-nor $1,$0,$2
-slt $1,$2,$3
-ori $1,$4,c
-addi $0,$5,ffff
-srl $5,$5,8
-beq $5,$0,8
+nor $2 $1 $0
+slt $3 $1 $2
+ori $4 $1 c
+addi $5 $0 ffff
+srl $5 $5 8
+beq $0 $5 8
 jal cf
-sw $4,$6,1
-lw $4,$7,1
-xor $6,$7,$8
+sw $4 1($6)
+lw $4 1($7)
+xor $8 $6 $7
 halt
 
-addi $1,$1,1
-sw $2,$1,1
-beq $1,$2,8
+addi $1 $1 1
+sw $2 1($1)
+beq $2 $1 8
 jr $31
 jal 0
-lw $2,$3,1
+lw $2 1($3)
 halt
 
-addiu $0,$1,1
-addiu $0,$2,ffff
-sll $1,$1,1
-srl $2,$2,1
-beq $2,$1,8
+addiu $1 $0 1
+addiu $2 $0 ffff
+sll $1 $1 1
+srl $2 $2 1
+beq $1 $2 8
 j 4
-add $1,$2,$3
-addu $1,$2,$4
-slt $3,$4,$5
+add $3 $1 $2
+addu $4 $1 $2
+slt $5 $3 $4
 halt
 
-addi $0,$1,1
-addi $0,$2,ffff
-sub $2,$1,$3
-xor $3,$2,$4
-nor $1,$4,$5
-ori $5,$4,1
+addi $1 $0 1
+addi $2 $0 ffff
+sub $3 $2 $1
+xor $4 $3 $2
+nor $5 $1 $4
+ori $4 $5 1
 halt
