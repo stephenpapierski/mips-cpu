@@ -17,9 +17,11 @@ begin
     dec: entity work.dec5to32(struct) port map (writeReg, WE, we0, we1, we2, we3, we4, we5, we6, we7, we8, we9, we10, we11, we12, we13, we14, we15, we16, we17, we18, we19, we20, we21, we22, we23, we24, we25, we26, we27, we28, we29, we30, we31);
 
     q0 <= "00000000000000000000000000000000"; --holds $zero at a value of 0
-    q1 <= "00000000000000000000000000000001"; --holds $zero at a value of 0
-    --reg_1: entity work.dflipflop(behav) port map (clock, we1, writeData, q1);
+    --q1 <= "00000000000000000000000000000001"; --DELETE temp to avoid load word
+    reg_1: entity work.dflipflop(behav) port map (clock, we1, writeData, q1);
+    --q2 <= "00000000000000000000000000000011"; --DELETE
     reg_2: entity work.dflipflop(behav) port map (clock, we2, writeData, q2);
+    --q3 <= "00000000000000000000000000000101"; --DELETE
     reg_3: entity work.dflipflop(behav) port map (clock, we3, writeData, q3);
     reg_4: entity work.dflipflop(behav) port map (clock, we4, writeData, q4);
     reg_5: entity work.dflipflop(behav) port map (clock, we5, writeData, q5);

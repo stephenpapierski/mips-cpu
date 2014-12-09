@@ -16,7 +16,7 @@ __status__  = "Development"
 #--|nor                     |nor $d $s $t      |$d <= $s NOR $t                       |             
 #--|set less than signed    |slt $d $s $t      |$d <= ($s < $t)?                      |     
 #--|shift left logical      |sll $d $s shamt   |$d <= $s << shamt                     |         
-#--|shfit right logical     |srl $d $s shamta  |                                      | 
+#--|shfit right logical     |srl $d $s shamt   |                                      | 
 #--|subtract                |sub $d $s $t      |$d <= $s - $t                         | 
 #--|exclusive or            |xor $d $s $t      |$d <= $s XOR $t                       |             
 #  |                        |                  |                                      | 
@@ -138,4 +138,5 @@ def main(assemblyfile = "brandon_micah.txt", executablefile = "sram64kx8.dat"):
 
 
 
-main("brandon_micah_test.txt")
+#main("brandon_micah_test.txt")
+main("test_1.txt")

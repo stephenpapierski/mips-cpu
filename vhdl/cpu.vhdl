@@ -7,13 +7,14 @@ end cpu;
 architecture v1 of cpu is
     --signals
     signal clk, overflow_f, negative_f, zero_f, carryout_f: std_logic;
-    signal zeros, PC, nPC, PC4, instruction, read1Data, read2Data, storeValue, ALUResult, ALUInput1, ALUInput2: std_logic_vector(31 downto 0);
+    signal zeros, PC, nPC, PC4, instruction, read1Data, read2Data, storeValue, ALUResult, ALUInput1, ALUInput2, shamtExtended, immExtended: std_logic_vector(31 downto 0);
+    signal immediate: std_logic_vector(15 downto 0);
     signal opcode, func: std_logic_vector(5 downto 0);
     signal Rs, Rt, Rd, shamt, storeReg: std_logic_vector(4 downto 0);
     signal ALUOperation: std_logic_vector(3 downto 0);
     signal branch, memRead, memWrite, regWrite, signExtend, ALUSrc1, memToReg: std_logic;
     signal ALUSrc2, storeRegDst, PCSrc, ALUOpType: std_logic_vector(1 downto 0);
-    signal branch_0, memRead_0, memWrite_0, signExtend_0, ALUSrc1_0, memToReg_0, ALUSrc2_0, ALUSrc2_1, storeRegDst_0, storeRegDst_1, PCSrc_0, PCSrc_1: STD_LOGIC_VECTOR(0 downto 0);
+    signal branch_0, memRead_0, memWrite_0, ALUSrc1_0, memToReg_0, ALUSrc2_0, ALUSrc2_1, storeRegDst_0, storeRegDst_1, PCSrc_0, PCSrc_1: STD_LOGIC_VECTOR(0 downto 0);
 begin
 
     zeros <= "00000000000000000000000000000000"; --DELETE
@@ -30,6 +31,8 @@ begin
     Rd <= instruction(15 downto 11);
     shamt <= instruction(10 downto 6);
     func <= instruction(5 downto 0);
+    immediate <= instruction(15 downto 0);
+
 
     --PROGRAM COUNTER
     PC_0: entity work.dflipflop(behav) port map (clk, '1', nPC, PC); --configures PC register
@@ -42,7 +45,6 @@ begin
     branch_0(0) <= branch;
     memRead_0(0) <= memRead;
     memWrite_0(0) <= memWrite;
-    signExtend_0(0) <= signExtend;
     ALUSrc1_0(0) <= ALUSrc1;
     memToReg_0(0) <= memToReg;
     ALUSrc2_0(0) <= ALUSrc2(0);
@@ -54,6 +56,12 @@ begin
     --END Control Logic Parsing
 
 
+    --SHAMT EXTENDER
+    shamt_extender_0: entity work.shamt_extender(struct) port map (shamt, shamtExtended);
+
+    --IMMEDIATE EXTENDER
+    ext_imm_0: entity work.extender(struct) port map (immediate, signExtend, immExtended);
+    
     --REGISTER FILE
     write_reg_mux: entity work.mux4to1_5(struct) port map ("00000", Rd, "00000", "00000", storeRegDst_1, storeRegDst_0, storeReg); --selects the register to store data in (reg 0 through 31)
     store_val_mux: entity work.mux2to1(struct) port map (ALUResult, zeros, memToReg_0, storeValue);
@@ -63,7 +71,7 @@ begin
 
     --ALU
     alu_src1: entity work.mux2to1(struct) port map (read1Data, zeros, ALUSrc1_0, ALUInput1);
-    alu_src2: entity work.mux4to1(struct) port map (read2Data, zeros, zeros, zeros, ALUSrc2_1, ALUSrc2_0, ALUInput2);
+    alu_src2: entity work.mux4to1(struct) port map (read2Data, zeros, shamtExtended, zeros, ALUSrc2_1, ALUSrc2_0, ALUInput2);
     
     alu_ctrl: entity work.ALUControl(behav) port map(ALUOpType, func, ALUOperation);
 
