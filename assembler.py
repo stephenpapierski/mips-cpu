@@ -3,9 +3,15 @@ from __future__ import print_function
 
 __author__ = "Brandon Hoeksema"
 __credits__ = ["Micah Russell", "Stephen Papierski"]
-__version__ = "0.3"
+__version__ = "0.4"
 __status__  = "Development"
 __notes__ = "assembler.py must be run with python3"
+
+#*************************************************************************************#
+#--------------------------------------NOTES------------------------------------------
+#    assembler.py must be run with python3
+#    version 0.4) it supports single line comments using //
+
 
 #--|------------------------|------------------|--------------------------------------|
 #--|DESCRIPTION             |SYNTAX            |OPERATION                             |
@@ -30,6 +36,7 @@ __notes__ = "assembler.py must be run with python3"
 #--|stop processor          |halt              |                                      |     
 #--|jump                    |j target          |PC <= jump address*                   |                     
 #--|jump and link           |jal target        |$31 <= PC + 8; PC <= jump address*    |         
+#--|------------------------|------------------|--------------------------------------|
 
 # addiu is being treated as R type so that it has a function code, but it is really an I-type instruction
 R = {
@@ -69,6 +76,11 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
     assembly = open(assemblyfile, "r")
     for instr in assembly:
         instr = instr.replace("\n","")
+        try:
+            comment_idx = instr.index("//")
+            instr = instr[:comment_idx]
+        except:
+            pass
         if instr != "":
             shamt = "00000"
             parts = instr.split()
@@ -139,5 +151,4 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
 
 
 
-#main("brandon_micah.txt")
-main("test_1.txt")
+main("brandon_micah.a")
