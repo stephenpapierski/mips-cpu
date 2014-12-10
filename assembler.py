@@ -72,13 +72,11 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
         if instr != "":
             shamt = "00000"
             parts = instr.split()
-            print(parts)
             if len(parts) == 1: #halt?
                 parts.append("0")
             if parts[0] in R.keys(): #R types
                 opcode = "000000"
                 funct = R[parts[0]]
-                print(funct)
                 bin_instruction += opcode
                 parts2 = parts[1:]
                 count = 0
@@ -127,7 +125,6 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
                     opcode = J[parts[0]]
                     bin_instruction += opcode + str(bin(int(parts[1],16))[2:].zfill(26))
             instruction = str(hex(int(bin_instruction,2)))[2:].zfill(8) #removes 0x prefix and pads to 8 characters
-            print(bin_instruction)
             instructions.append(instruction)
             addresses.append(hex(int(str(address)))[2:].zfill(8))
             address +=4
@@ -142,4 +139,5 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
 
 
 
-main("brandon_micah.txt")
+#main("brandon_micah.txt")
+main("test_1.txt")

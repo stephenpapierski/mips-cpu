@@ -5,7 +5,7 @@ entity Control is
     port (
         Operation: in std_logic_vector(31 downto 26);
         Func: in std_logic_vector(5 downto 0);
-        Branch, MemRead, MemWrite, RegWrite, SignExtend, ALUSrc1, MemToReg: out std_logic;
+        Branch, MemRead, MemWrite, RegWrite, SignExtend, ALUSrc1, MemToReg, Halt: out std_logic;
         ALUSrc2, WriteRegDst, PCSrc, ALUOpType: out std_logic_vector(1 downto 0)
     );
 end Control;
@@ -239,6 +239,9 @@ begin
                     WriteRegDst <= "00" after 20 ps;
                     PCSrc <= "00" after 20 ps;
                     ALUOpType <= "00" after 20 ps;
+            elsif (Operation = "111111") then
+                --halt
+                    Halt <= '1' after 20 ps;
             end if;
     end process;
 end behav;

@@ -361,7 +361,7 @@ case $tb in
                     ;;
 
     "cpu")     echo **cpu_tb**
-                    ./cpu --stop-time=30ns --wave=cpu_test.ghw
+                    ./cpu --wave=cpu_test.ghw
                     gtkwave cpu_test.ghw
                     ;;
 esac
