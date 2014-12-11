@@ -6,8 +6,8 @@ end cpu;
 
 architecture v1 of cpu is
     --signals
-    signal clk, overflow_f, negative_f, zero_f, carryout_f, halt: std_logic;
-    signal zeros, four_32, PC, nPC, PC4, instruction, read1Data, read2Data, storeValue, ALUResult, ALUInput1, ALUInput2, shamtExtended, immExtended, ALUout, notALUout: std_logic_vector(31 downto 0);
+    signal clk, overflow_f, negative_f, zero_f, carryout_f, halt, dataMem_nwe, dataMem_noe, clk_20ps, tristate_en: std_logic;
+    signal zeros, four_32, PC, nPC, PC4, instruction, read1Data, read2Data, storeValue, ALUResult, ALUInput1, ALUInput2, shamtExtended, immExtended, ALUout, notALUout, dataMemory_data: std_logic_vector(31 downto 0);
     signal immediate: std_logic_vector(15 downto 0);
     signal opcode, func: std_logic_vector(5 downto 0);
     signal Rs, Rt, Rd, shamt, storeReg: std_logic_vector(4 downto 0);
@@ -65,9 +65,9 @@ begin
     
     --REGISTER FILE
     write_reg_mux: entity work.mux4to1_5(struct) port map (Rt, Rd, "11111", "00000", storeRegDst_1, storeRegDst_0, storeReg); --selects the register to store data in (reg 0 through 31)
-    store_val_mux: entity work.mux2to1(struct) port map (ALUResult, zeros, memToReg_0, storeValue);
+    store_val_mux: entity work.mux2to1(struct) port map (ALUResult, dataMemory_data, memToReg_0, storeValue);
 
-    reg_file: entity work.RegFile(v1) port map(Rs, Rt, storeReg,regWrite, clk, storeValue, read1Data, read2Data); -- sets up Register File
+    reg_file: entity work.RegFile(v1) port map(Rs, Rt, storeReg, regWrite, clk, storeValue, read1Data, read2Data); -- sets up Register File
 
 
     --ALU
@@ -82,6 +82,19 @@ begin
 
     notALUout <= not ALUout after 5 ps;
     or_implementation: entity work.mux4to1(struct) port map (ALUout, ALUout, ALUout, notALUout, ALUOpType_1, ALUOpType_0, ALUResult);
+
+
+    --DATA MEMORY
+    clk_20ps <= clk after 20 ps;
+    dataMem_nwe <= clk_20ps or (not memWrite) after 600 ps; -- not write enable for data memory
+    dataMem_noe <= clk_20ps or (not memRead) after 600 ps; -- not output enable for data memory
+
+    tristate_en <= not clk_20ps and memWrite after 600 ps;
+    --500 ps delay gives enough time for the alu to calculate and output the load/store address
+
+    tristate_0: entity work.tristate(v1) port map (read2Data, tristate_en, dataMemory_data);
+
+    data_mem: entity work.sram64kx8(sram_behaviour) port map ('0', ALUResult, dataMemory_data, dataMem_nwe, dataMem_noe);
 
 
 

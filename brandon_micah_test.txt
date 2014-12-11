@@ -1,3 +1,4 @@
+//You can use comments now
 lw $0 0($3)
 lw $0 8($2)
 add $1 $3 $3

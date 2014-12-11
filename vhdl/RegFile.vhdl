@@ -41,6 +41,7 @@ begin
     reg_19: entity work.dflipflop(behav) port map (clock, we19, writeData, q19);
     reg_20: entity work.dflipflop(behav) port map (clock, we20, writeData, q20);
     reg_21: entity work.dflipflop(behav) port map (clock, we21, writeData, q21);
+    --q21 <= "00000000000000001111111111111100"; --DELETE
     reg_22: entity work.dflipflop(behav) port map (clock, we22, writeData, q22);
     reg_23: entity work.dflipflop(behav) port map (clock, we23, writeData, q23);
     reg_24: entity work.dflipflop(behav) port map (clock, we24, writeData, q24);

@@ -151,4 +151,4 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
 
 
 
-main("brandon_micah.a")
+main("test_1.txt")

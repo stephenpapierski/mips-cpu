@@ -87,6 +87,9 @@ echo shamt_extender.vhdl analyzed
 ghdl -a clock.vhdl
 echo clock.vhdl analyzed
 
+ghdl -a tristate.vhdl
+echo tristate.vhdl analyzed
+
 ghdl -a --ieee=synopsys sram.vhdl
 echo sram.vhdl analyzed
 
@@ -184,6 +187,9 @@ echo shamt_extender elaborated
 ghdl -e clock
 echo clock elaborated
 
+ghdl -e tristate
+echo tristate elaborated
+
 ghdl -e --ieee=synopsys sram64kx8
 echo sram64kx8 elaborated
 
@@ -193,7 +199,7 @@ echo cpu elaborated
 echo ----enumerating successful----
 echo
 
-tb="cpu" #cpu, shamt_extender, extender, dflipflop, regfile, mux32to1_bit, dec5to32, full_adder, adder32, xor32, nor32, nand32, complement32, shifter32, set_less_than, alu
+tb="cpu" #cpu, tristate, shamt_extender, extender, dflipflop, regfile, mux32to1_bit, dec5to32, full_adder, adder32, xor32, nor32, nand32, complement32, shifter32, set_less_than, alu
 case $tb in
     "regfile")      echo **regfile_tb**
                     mv test_benches/regfile_tb.vhdl .
@@ -360,7 +366,18 @@ case $tb in
                     gtkwave shamt_extender_test.ghw
                     ;;
 
-    "cpu")     echo **cpu_tb**
+    "tristate")     echo **tristate_tb**
+                    mv test_benches/tristate_tb.vhdl .
+                    ghdl -a tristate_tb.vhdl
+                    echo tristate_tb.vhdl analyzed
+                    ghdl -e tristate_tb
+                    echo tristate_tb elaborated
+                    mv tristate_tb.vhdl test_benches/
+                    ./tristate_tb --wave=tristate_test.ghw
+                    gtkwave tristate_test.ghw
+                    ;;
+
+    "cpu")     echo **cpu**
                     ./cpu --wave=cpu_test.ghw
                     gtkwave cpu_test.ghw
                     ;;
