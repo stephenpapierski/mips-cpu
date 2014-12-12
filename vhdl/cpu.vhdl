@@ -1,20 +1,25 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
+--**********************************************************
+
+
 entity cpu is
 end cpu;
 
 architecture v1 of cpu is
     --signals
     signal clk, overflow_f, negative_f, zero_f, carryout_f, halt, dataMem_nwe, dataMem_noe, clk_20ps, tristate_en: std_logic;
-    signal zeros, four_32, PC, nPC, PC4, instruction, read1Data, read2Data, storeValue, ALUResult, ALUInput1, ALUInput2, shamtExtended, immExtended, ALUout, notALUout, dataMemory_data: std_logic_vector(31 downto 0);
+    signal clk_pulse: std_logic := '1';
+    signal zeros, four_32, PC, nPC, PC4, instruction, read1Data, read2Data, storeValue, ALUResult, ALUInput1, ALUInput2, shamtExtended, immExtended, ALUout, notALUout, dataMemory_data, jumpAddr, branchAddr, PC4_branch, PC4_or_branch: std_logic_vector(31 downto 0);
+    signal addr: std_logic_vector(25 downto 0);
     signal immediate: std_logic_vector(15 downto 0);
     signal opcode, func: std_logic_vector(5 downto 0);
     signal Rs, Rt, Rd, shamt, storeReg: std_logic_vector(4 downto 0);
     signal ALUOperation: std_logic_vector(3 downto 0);
     signal branch, memRead, memWrite, regWrite, signExtend, ALUSrc1, memToReg: std_logic;
     signal ALUSrc2, storeRegDst, PCSrc, ALUOpType: std_logic_vector(1 downto 0);
-    signal branch_0, memRead_0, memWrite_0, ALUSrc1_0, memToReg_0, ALUSrc2_0, ALUSrc2_1, storeRegDst_0, storeRegDst_1, PCSrc_0, PCSrc_1, ALUOpType_0, ALUOpType_1: STD_LOGIC_VECTOR(0 downto 0);
+    signal branch_0, memRead_0, memWrite_0, ALUSrc1_0, memToReg_0, ALUSrc2_0, ALUSrc2_1, storeRegDst_0, storeRegDst_1, PCSrc_0, PCSrc_1, ALUOpType_0, ALUOpType_1, branch_equal: STD_LOGIC_VECTOR(0 downto 0);
 begin
 
     zeros <= "00000000000000000000000000000000"; --DELETE
@@ -22,6 +27,9 @@ begin
 
     -- CLOCK
     clk_0: entity work.clock(v1) port map(500.0E6, halt, clk); --generates 500MHz clock
+    
+    clk_pulse <= clk and not clk_20ps after 40 ps;
+    clk_20ps <= clk after 20 ps;
 
     --INSTRUCTION MEMORY
     instruction_mem : entity work.sram64kx8(sram_behaviour) port map('0', PC, instruction, '1', clk); --configures instruction memory, populates from sram64kx8.dat
@@ -33,12 +41,18 @@ begin
     shamt <= instruction(10 downto 6);
     func <= instruction(5 downto 0);
     immediate <= instruction(15 downto 0);
+    addr <= instruction(25 downto 0);
 
 
     --PROGRAM COUNTER
     PC_0: entity work.dflipflop(behav) port map (clk, '1', nPC, PC); --configures PC register
     PC_4: entity work.alu(struct) port map(PC, four_32, "0000", PC4); --generates PC+4
-    PC_src: entity work.mux4to1(struct) port map (PC4, zeros, zeros, zeros, PCSrc_1, PCSrc_0, nPC);
+    branchAddr <= immExtended(29 downto 0) & "00";
+    PC_4_branch: entity work.alu(struct) port map(branchAddr, PC4, "0000", PC4_branch); -- generates PC+4+branchAddr, the branch location
+    branch_equal(0) <= zero_f and branch after 5 ps;
+    PC_4_or_branch: entity work.mux2to1(struct) port map (PC4, PC4_branch, branch_equal, PC4_or_branch);
+    jumpAddr <= PC4(31 downto 28) & addr & "00";
+    PC_src: entity work.mux4to1(struct) port map (PC4_or_branch, jumpAddr, read1Data, zeros, PCSrc_1, PCSrc_0, nPC);
     
     --CONTROLLER
     control_0: entity work.Control(behav) port map(opcode, func, branch, memRead, memWrite, regWrite, signExtend, ALUSrc1, memToReg, halt, ALUSrc2, storeRegDst, PCSrc, ALUOpType); -- configure control unit
@@ -85,16 +99,15 @@ begin
 
 
     --DATA MEMORY
-    clk_20ps <= clk after 20 ps;
     dataMem_nwe <= clk_20ps or (not memWrite) after 600 ps; -- not write enable for data memory
     dataMem_noe <= clk_20ps or (not memRead) after 600 ps; -- not output enable for data memory
 
     tristate_en <= not clk_20ps and memWrite after 600 ps;
-    --500 ps delay gives enough time for the alu to calculate and output the load/store address
+    --600 ps delay gives enough time for the alu to calculate and output the load/store address
 
-    tristate_0: entity work.tristate(v1) port map (read2Data, tristate_en, dataMemory_data);
+    --tristate_0: entity work.tristate(v1) port map (read2Data, tristate_en, dataMemory_data);
 
-    data_mem: entity work.sram64kx8(sram_behaviour) port map ('0', ALUResult, dataMemory_data, dataMem_nwe, dataMem_noe);
+    --data_mem: entity work.sram64kx8(sram_behaviour) port map ('0', ALUResult, dataMemory_data, dataMem_nwe, dataMem_noe);
 
 
 

@@ -156,7 +156,7 @@ begin
                     RegWrite <= '0' after 20 ps;
                     SignExtend <= '1' after 20 ps;
                     ALUSrc1 <= '0' after 20 ps;
-                    ALUSrc2 <= "01" after 20 ps;
+                    ALUSrc2 <= "00" after 20 ps;
                     --MemToReg <= "00" after 20 ps;
                     --WriteRegDst <= "00" after 20 ps;
                     PCSrc <= "00" after 20 ps;

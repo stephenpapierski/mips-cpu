@@ -140,6 +140,7 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
             instructions.append(instruction)
             addresses.append(hex(int(str(address)))[2:].zfill(8))
             address +=4
+            print(bin_instruction)
             bin_instruction=""
     executable = open(executablefile, "w")
     for i in range(len(addresses)):
