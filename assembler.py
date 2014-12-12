@@ -16,26 +16,26 @@ __notes__ = "assembler.py must be run with python3"
 #--|--------|------------------------|------------------|--------------------------------------|
 #--|COMMAND |DESCRIPTION             |SYNTAX            |OPERATION                             |
 #--|--------|------------------------|------------------|--------------------------------------|
-#--|add     |add signed              |add $d $s $t      |$d <= $s + $t                         | 
-#--|addu    |add unsigned            |addu $d $s $t     |$d <= $s + $t                         | 
-#--|addiu   |add unsigned immediate  |addiu $s $t imm   |$t <= $s + imm                        |     
-#--|jr      |jump register           |jr $s             |PC <= $s                              | 
-#--|nor     |nor                     |nor $d $s $t      |$d <= $s NOR $t                       |             
-#--|slt     |set less than signed    |slt $d $s $t      |$d <= ($s < $t)?                      |     
-#--|sll     |shift left logical      |sll $d $s shamt   |$d <= $s << shamt                     |         
-#--|srl     |shfit right logical     |srl $d $s shamt   |                                      | 
-#--|sub     |subtract                |sub $d $s $t      |$d <= $s - $t                         | 
-#--|xor     |exclusive or            |xor $d $s $t      |$d <= $s XOR $t                       |             
+#--+|add     |add signed              |add $d $s $t      |$d <= $s + $t                         |-
+#--+|addu    |add unsigned            |addu $d $s $t     |$d <= $s + $t                         |-
+#--+|addiu   |add unsigned immediate  |addiu $s $t imm   |$t <= $s + imm                        |?
+#--+|jr      |jump register           |jr $s             |PC <= $s                              | 
+#--+|nor     |nor                     |nor $d $s $t      |$d <= $s NOR $t                       |             
+#--+|slt     |set less than signed    |slt $d $s $t      |$d <= ($s < $t)?                      |     
+#--+|sll     |shift left logical      |sll $d $s shamt   |$d <= $s << shamt                     |         
+#--+|srl     |shfit right logical     |srl $d $s shamt   |                                      | 
+#--+|sub     |subtract                |sub $d $s $t      |$d <= $s - $t                         | 
+#--+|xor     |exclusive or            |xor $d $s $t      |$d <= $s XOR $t                       |             
 #  |        |                        |                  |                                      | 
-#--|addi    |add immediate           |addi $s $t imm    |$t <= $s + imm                        | 
-#--|beq     |branch if equal         |beq $s $t offset  |if ($s == $t) PC <= branch address*   |         
-#--|lw      |load word               |lw $t offset($s)  |$t <= MEM[$s + offset]                |     
-#--|ori     |or immediate            |ori $s $t imm     |$t <= $s OR imm                       |     
+#--+|addi    |add immediate           |addi $s $t imm    |$t <= $s + imm                        |-
+#--+|beq     |branch if equal         |beq $s $t offset  |if ($s == $t) PC <= branch address*   |         
+#--+|lw      |load word               |lw $t offset($s)  |$t <= MEM[$s + offset]                |     
+#--+|ori     |or immediate            |ori $s $t imm     |$t <= $s OR imm                       |     
 #--|sw      |store word              |sw $t offset($s)  |MEM[$s + offset] <= $t                |             
 #  |        |                        |                  |                                      |     
-#--|halt    |stop processor          |halt              |                                      |     
-#--|j       |jump                    |j target          |PC <= jump address*                   |                     
-#--|jal     |jump and link           |jal target        |$31 <= PC + 8; PC <= jump address*    |         
+#--+|halt    |stop processor          |halt              |                                      |-
+#--+|j       |jump                    |j target          |PC <= jump address*                   |                     
+#--+|jal     |jump and link           |jal target        |$31 <= PC + 8; PC <= jump address*    |         
 #--|--------|------------------------|------------------|--------------------------------------|
 
 # addiu is being treated as R type so that it has a function code, but it is really an I-type instruction
@@ -151,4 +151,5 @@ def main(assemblyfile = "assembly.txt", executablefile = "sram64kx8.dat"):
 
 
 
-main("test_1.txt")
+testProgram = "testProgram.txt"
+main(testProgram)

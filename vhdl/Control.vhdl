@@ -223,8 +223,8 @@ begin
                     SignExtend <= '1' after 20 ps;
                     ALUSrc1 <= '0' after 20 ps;
                     ALUSrc2 <= "01" after 20 ps;
-                    --MemToReg <= "00" after 20 ps;
-                    --WriteRegDst <= "00" after 20 ps;
+                    --MemToReg <= '0' after 20 ps; --dont care?
+                    --WriteRegDst <= "00" after 20 ps; --dont care?
                     PCSrc <= "00" after 20 ps;
                     ALUOpType <= "00" after 20 ps;
                     addui <= '0' after 20 ps;
@@ -254,7 +254,7 @@ begin
                     MemToReg <= '0' after 20 ps;
                     WriteRegDst <= "00" after 20 ps;
                     PCSrc <= "00" after 20 ps;
-                    ALUOpType <= "10" after 20 ps;
+                    ALUOpType <= "00" after 20 ps;
                     addui <= '1' after 20 ps;
             elsif (Operation = "111111") then
                 --halt

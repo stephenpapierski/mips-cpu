@@ -1,0 +1,45 @@
+//Test programs for mips-cpu project
+//__author__ = "Stephen Papierski"
+
+addiu $0 $1 00ff     //$1 <= 0 + ff              //store 00ff (+255) into register 1
+
+add $0 $0 $0        //address 04 data 0020
+
+addu $2 $1 $1        //$2 <= 00ff + 00ff         //store 01fe (+510) into register 2
+addi $0 $3 fe02     //$3 <= 0 + fe02            //store fe02 (-510) into register 3
+add $4 $1 $3        //$4 <= 00ff + fe02          //store ff01 (-255) into register 4
+nor $5 $2 $3        //$5 <= 01fe nor fe02         //store 01 (+1) into register 5
+xor $6 $2 $3        //$6 <= 01fe xor fe02       //store fffc into register 6
+sub $7 $2 $1        //$7 <= 01fe - 00ff         //store 00ff (+255) into register 7
+ori $3 $8 5555      //$8 <= ffff fe02 or 0000 5555  //store ff57 into register 8
+slt $9 $1 $2        //$9 <= (00ff < 01fe)?      //store 01 into register 9
+sll $10 $1 2        //$10 <= 00ff <<2           //store 03fc into register 10
+srl $11 $10 2       //$11 <= ff00 >>2           //store 00ff into register 11
+
+lw $12 4($0)        //$12 <= MEM[04]            //store 0020 into register 12
+
+beq $0 $2 0d      //(0 == 01fe)? PC=04        //doesn't branch
+beq $3 $3 04        //branch to PC+4+(4<<2)   //branch to 4c (line 27)
+add $0 $0 $0
+add $0 $0 $0
+add $0 $0 $0
+add $0 $0 $0
+add $0 $0 $0
+
+jal 0018          //jump to 0018<<2 = 0060 (line 34)
+add $0 $0 $0
+add $0 $0 $0
+j 0019              //jump to 0019<<2 = 0064 (line 36)
+
+jr $31            //jump 0058 (line 31)
+
+halt
+
+//addiu $0 $1 00ff     //$1 <= 0 + 00ff              //store 00ff (+255) into register 1
+//sw $1 0018($0)      //MEM[0018] <= 00ff
+//add $0 $0 $0
+//add $0 $0 $0
+//add $0 $0 $0
+//lw $2 0018($0)
+//lw $2 0018($0)
+//halt

@@ -103,7 +103,7 @@ begin
     dataMem_nwe <= clk_20ps or (not memWrite) after 600 ps; -- not write enable for data memory
     dataMem_noe <= clk_20ps or (not memRead) after 600 ps; -- not output enable for data memory
 
-    tristate_en <= not clk_20ps and memWrite after 600 ps;
+    tristate_en <= not clk_20ps and memWrite after 500 ps;
     --600 ps delay gives enough time for the alu to calculate and output the load/store address
 
     tristate_0: entity work.tristate(v1) port map (read2Data, tristate_en, dataMemory_data);
