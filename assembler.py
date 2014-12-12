@@ -13,30 +13,30 @@ __notes__ = "assembler.py must be run with python3"
 #    version 0.4) it supports single line comments using //
 
 
-#--|------------------------|------------------|--------------------------------------|
-#--|DESCRIPTION             |SYNTAX            |OPERATION                             |
-#--|------------------------|------------------|--------------------------------------|
-#--|add signed              |add $d $s $t      |$d <= $s + $t                         | 
-#--|add unsigned            |addu $d $s $t     |$d <= $s + $t                         | 
-#--|add unsigned immediate  |addiu $s $t imm   |$t <= $s + imm                        |     
-#--|jump register           |jr $s             |PC <= $s                              | 
-#--|nor                     |nor $d $s $t      |$d <= $s NOR $t                       |             
-#--|set less than signed    |slt $d $s $t      |$d <= ($s < $t)?                      |     
-#--|shift left logical      |sll $d $s shamt   |$d <= $s << shamt                     |         
-#--|shfit right logical     |srl $d $s shamt   |                                      | 
-#--|subtract                |sub $d $s $t      |$d <= $s - $t                         | 
-#--|exclusive or            |xor $d $s $t      |$d <= $s XOR $t                       |             
-#  |                        |                  |                                      | 
-#--|add immediate           |addi $s $t imm    |$t <= $s + imm                        | 
-#--|branch if equal         |beq $s $t offset  |if ($s == $t) PC <= branch address*   |         
-#--|load word               |lw $t offset($s)  |$t <= MEM[$s + offset]                |     
-#--|or immediate            |ori $s $t imm     |$t <= $s OR imm                       |     
-#--|store word              |sw $t offset($s)  |MEM[$s + offset] <= $t                |             
-#  |                        |                  |                                      |     
-#--|stop processor          |halt              |                                      |     
-#--|jump                    |j target          |PC <= jump address*                   |                     
-#--|jump and link           |jal target        |$31 <= PC + 8; PC <= jump address*    |         
-#--|------------------------|------------------|--------------------------------------|
+#--|--------|------------------------|------------------|--------------------------------------|
+#--|COMMAND |DESCRIPTION             |SYNTAX            |OPERATION                             |
+#--|--------|------------------------|------------------|--------------------------------------|
+#--|add     |add signed              |add $d $s $t      |$d <= $s + $t                         | 
+#--|addu    |add unsigned            |addu $d $s $t     |$d <= $s + $t                         | 
+#--|addiu   |add unsigned immediate  |addiu $s $t imm   |$t <= $s + imm                        |     
+#--|jr      |jump register           |jr $s             |PC <= $s                              | 
+#--|nor     |nor                     |nor $d $s $t      |$d <= $s NOR $t                       |             
+#--|slt     |set less than signed    |slt $d $s $t      |$d <= ($s < $t)?                      |     
+#--|sll     |shift left logical      |sll $d $s shamt   |$d <= $s << shamt                     |         
+#--|srl     |shfit right logical     |srl $d $s shamt   |                                      | 
+#--|sub     |subtract                |sub $d $s $t      |$d <= $s - $t                         | 
+#--|xor     |exclusive or            |xor $d $s $t      |$d <= $s XOR $t                       |             
+#  |        |                        |                  |                                      | 
+#--|addi    |add immediate           |addi $s $t imm    |$t <= $s + imm                        | 
+#--|beq     |branch if equal         |beq $s $t offset  |if ($s == $t) PC <= branch address*   |         
+#--|lw      |load word               |lw $t offset($s)  |$t <= MEM[$s + offset]                |     
+#--|ori     |or immediate            |ori $s $t imm     |$t <= $s OR imm                       |     
+#--|sw      |store word              |sw $t offset($s)  |MEM[$s + offset] <= $t                |             
+#  |        |                        |                  |                                      |     
+#--|halt    |stop processor          |halt              |                                      |     
+#--|j       |jump                    |j target          |PC <= jump address*                   |                     
+#--|jal     |jump and link           |jal target        |$31 <= PC + 8; PC <= jump address*    |         
+#--|--------|------------------------|------------------|--------------------------------------|
 
 # addiu is being treated as R type so that it has a function code, but it is really an I-type instruction
 R = {

@@ -22,7 +22,7 @@ architecture v1 of cpu is
     signal branch_0, memRead_0, memWrite_0, ALUSrc1_0, memToReg_0, ALUSrc2_0, ALUSrc2_1, storeRegDst_0, storeRegDst_1, PCSrc_0, PCSrc_1, ALUOpType_0, ALUOpType_1, branch_equal: STD_LOGIC_VECTOR(0 downto 0);
 begin
 
-    zeros <= "00000000000000000000000000000000"; --DELETE
+    zeros <= "00000000000000000000000000000000";
     four_32 <= "00000000000000000000000000000100";
 
     -- CLOCK
@@ -106,9 +106,9 @@ begin
     tristate_en <= not clk_20ps and memWrite after 600 ps;
     --600 ps delay gives enough time for the alu to calculate and output the load/store address
 
-    --tristate_0: entity work.tristate(v1) port map (read2Data, tristate_en, dataMemory_data);
+    tristate_0: entity work.tristate(v1) port map (read2Data, tristate_en, dataMemory_data);
 
-    --data_mem: entity work.sram64kx8(sram_behaviour) port map ('0', ALUResult, dataMemory_data, dataMem_nwe, dataMem_noe);
+    data_mem: entity work.sram64kx8(sram_behaviour) port map ('0', ALUResult, dataMemory_data, dataMem_nwe, dataMem_noe);
 
 
 
