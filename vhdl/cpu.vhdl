@@ -9,7 +9,7 @@ end cpu;
 
 architecture v1 of cpu is
     --signals
-    signal clk, overflow_f, negative_f, zero_f, carryout_f, halt, dataMem_nwe, dataMem_noe, clk_20ps, tristate_en: std_logic;
+    signal clk, overflow_f, pre_negative_f, negative_f, zero_f, carryout_f, halt, dataMem_nwe, dataMem_noe, clk_20ps, tristate_en, addui: std_logic;
     signal clk_pulse: std_logic := '1';
     signal zeros, four_32, PC, nPC, PC4, instruction, read1Data, read2Data, storeValue, ALUResult, ALUInput1, ALUInput2, shamtExtended, immExtended, ALUout, notALUout, dataMemory_data, jumpAddr, branchAddr, PC4_branch, PC4_or_branch: std_logic_vector(31 downto 0);
     signal addr: std_logic_vector(25 downto 0);
@@ -55,7 +55,7 @@ begin
     PC_src: entity work.mux4to1(struct) port map (PC4_or_branch, jumpAddr, read1Data, zeros, PCSrc_1, PCSrc_0, nPC);
     
     --CONTROLLER
-    control_0: entity work.Control(behav) port map(opcode, func, branch, memRead, memWrite, regWrite, signExtend, ALUSrc1, memToReg, halt, ALUSrc2, storeRegDst, PCSrc, ALUOpType); -- configure control unit
+    control_0: entity work.Control(behav) port map(opcode, func, branch, memRead, memWrite, regWrite, signExtend, ALUSrc1, memToReg, halt, addui, ALUSrc2, storeRegDst, PCSrc, ALUOpType); -- configure control unit
         --Control Logic Parsing (this is necessary because we designed our muxes really poorly, a.k.a. before we understood VHDL)
     branch_0(0) <= branch;
     memRead_0(0) <= memRead;
@@ -92,7 +92,8 @@ begin
     ALUOpType_0(0) <= ALUOpType(0);
     ALUOpType_1(0) <= ALUOpType(1);
 
-    alu_0: entity work.alu(struct) port map(ALUInput1, ALUInput2, ALUOperation, ALUout, overflow_f, negative_f, zero_f, carryout_f);
+    alu_0: entity work.alu(struct) port map(ALUInput1, ALUInput2, ALUOperation, ALUout, overflow_f, pre_negative_f, zero_f, carryout_f);
+    negative_f <= pre_negative_f and not addui after 10 ps; --corrects the negative flag output from the alu when performing an unsigned add immediate
 
     notALUout <= not ALUout after 5 ps;
     or_implementation: entity work.mux4to1(struct) port map (ALUout, ALUout, ALUout, notALUout, ALUOpType_1, ALUOpType_0, ALUResult);
